@@ -1,20 +1,23 @@
 import React from 'react';
+import { Channel } from '../services/EventService';
 
-function VideoList(){
+function VideoList(props){
+    const videos = props.videos || [];
+
+    function handleClick(video){
+        Channel.emit('video:select', video);
+    }
+
     return(
         <ul className="video-list">
-            <li className="video">
-                <img src="https://storage.coverr.co/t/yLBUtQQS008DDHlyhnrREn02ZoFYjQ01Yp2" alt="A Guy Treats a Girl With Ice Cream preview image"/>
-                <div> Ice-Cream </div>
+            {
+                videos.map(video => (
+                    <li key={video.id} className="video" onClick={handleClick.bind(this, video)}>
+                <img src={video.img} alt={video.name}/>
+                <div> {video.name} </div>
             </li>  
-            <li className="video">
-                <img src="https://storage.coverr.co/t/yLBUtQQS008DDHlyhnrREn02ZoFYjQ01Yp2" alt="A Guy Treats a Girl With Ice Cream preview image"/>
-                <div> Ice-Cream </div>
-            </li>  
-            <li className="video">
-                <img src="https://storage.coverr.co/t/yLBUtQQS008DDHlyhnrREn02ZoFYjQ01Yp2" alt="A Guy Treats a Girl With Ice Cream preview image"/>
-                <div> Ice-Cream </div>
-            </li>  
+                ))
+            }
         </ul>
     )
 }
